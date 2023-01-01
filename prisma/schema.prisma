@@ -9,3 +9,50 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+
+model Category {
+  id        String     @id @default(cuid())
+  iconUrl   String     @map("icon_url")
+  name      String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("categories")
+}
+
+model User {
+  id        String     @id @default(cuid())
+  firebaseUid String @map("firebase_uid")
+  favoriteShops FavoriteShop[]
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  @@map("users")
+}
+
+model Shop {
+  id        String     @id @default(cuid())
+  name      String
+  overview  String
+  mapUrl    String   @map("map_url")
+  favoriteShops FavoriteShop[]
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  @@map("shops")
+}
+
+model FavoriteShop {
+  id        String     @id @default(cuid())
+  userId    String     @map("user_id")
+  user      User       @relation(fields: [userId], references: [id])
+  shopId    String     @map("shop_id")
+  shop      Shop       @relation(fields: [shopId], references: [id])
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("favorite_shops")
+}

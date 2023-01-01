@@ -1,9 +1,14 @@
+import { seedCategories } from './categories';
 import { PrismaClient } from '@prisma/client';
+import { seedUsers } from './users';
 
 const prisma = new PrismaClient();
 
 const main = async () => {
   console.log(`Start seeding ...`);
+
+  await seedCategories();
+  await seedUsers();
 
   console.log(`Seeding finished.`);
 };
