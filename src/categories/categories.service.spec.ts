@@ -6,6 +6,7 @@ import { CategoriesService } from './categories.service';
 
 describe('CategoriesService', () => {
   let service: CategoriesService;
+  let prismaService: PrismaService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -13,6 +14,11 @@ describe('CategoriesService', () => {
     }).compile();
 
     service = module.get<CategoriesService>(CategoriesService);
+    prismaService = module.get<PrismaService>(PrismaService);
+  });
+
+  afterAll(async () => {
+    await prismaService.$disconnect();
   });
 
   it('should be defined', () => {

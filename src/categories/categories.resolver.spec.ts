@@ -6,6 +6,7 @@ import { CategoriesService } from './categories.service';
 
 describe('CategoriesResolver', () => {
   let resolver: CategoriesResolver;
+  let prismaService: PrismaService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -18,6 +19,11 @@ describe('CategoriesResolver', () => {
     }).compile();
 
     resolver = module.get<CategoriesResolver>(CategoriesResolver);
+    prismaService = module.get<PrismaService>(PrismaService);
+  });
+
+  afterAll(async () => {
+    await prismaService.$disconnect();
   });
 
   it('should be defined', () => {
